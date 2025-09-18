@@ -3,7 +3,7 @@ import { WelcomeHero } from "@/components/WelcomeHero";
 import { ChatbotScreening } from "@/components/ChatbotScreening";
 import { RiskAssessmentResults } from "@/components/RiskAssessmentResults";
 import { ResourceHub } from "@/components/ResourceHub";
-import { PeerSupportCommunity } from "@/components/PeerSupportCommunity";
+import PeerSupportCommunity from "@/components/PeerSupportCommunity";
 
 type AppState = 'welcome' | 'screening' | 'results' | 'resources' | 'peer-support' | 'counselor-booking';
 
