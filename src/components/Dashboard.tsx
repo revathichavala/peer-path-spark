@@ -1,4 +1,4 @@
-import { Users, MessageCircle, BookOpen, Settings, UserCheck, Circle } from "lucide-react";
+import { Users, MessageCircle, BookOpen, Settings, UserCheck, Circle, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
@@ -7,6 +7,7 @@ interface DashboardProps {
   onJoinGroupChat: () => void;
   onStart1on1Chat: () => void;
   onViewResources: () => void;
+  onBookCounselor?: () => void;
   onVolunteerDashboard?: () => void;
   isVolunteer?: boolean;
 }
@@ -16,6 +17,7 @@ const Dashboard = ({
   onJoinGroupChat, 
   onStart1on1Chat, 
   onViewResources,
+  onBookCounselor,
   onVolunteerDashboard,
   isVolunteer = false 
 }: DashboardProps) => {
@@ -102,26 +104,52 @@ const Dashboard = ({
         </div>
 
         {/* Resources & Support */}
-        <div className="group">
-          <div 
-            onClick={onViewResources}
-            className="bg-card rounded-2xl p-4 shadow-gentle border border-border/50 hover:shadow-comfort transition-all duration-300 cursor-pointer hover:scale-[1.01] flex items-center justify-between"
-          >
-            <div className="flex items-center space-x-4">
-              <div className="w-10 h-10 bg-accent-soft rounded-xl flex items-center justify-center group-hover:bg-accent group-hover:text-accent-foreground transition-colors">
-                <BookOpen className="h-5 w-5" />
+        <div className="grid gap-6 md:grid-cols-2">
+          <div className="group">
+            <div 
+              onClick={onViewResources}
+              className="bg-card rounded-2xl p-4 shadow-gentle border border-border/50 hover:shadow-comfort transition-all duration-300 cursor-pointer hover:scale-[1.01] flex items-center justify-between"
+            >
+              <div className="flex items-center space-x-4">
+                <div className="w-10 h-10 bg-accent-soft rounded-xl flex items-center justify-center group-hover:bg-accent group-hover:text-accent-foreground transition-colors">
+                  <BookOpen className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-foreground">Mental Health Resources</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Self-care tips, breathing exercises, and helpful resources
+                  </p>
+                </div>
               </div>
-              <div>
-                <h3 className="font-semibold text-foreground">Mental Health Resources</h3>
-                <p className="text-sm text-muted-foreground">
-                  Self-care tips, breathing exercises, and helpful resources
-                </p>
+              <Button variant="ghost" className="text-primary hover:text-primary/80">
+                Explore
+              </Button>
+            </div>
+          </div>
+
+          {onBookCounselor && (
+            <div className="group">
+              <div 
+                onClick={onBookCounselor}
+                className="bg-card rounded-2xl p-4 shadow-gentle border border-border/50 hover:shadow-comfort transition-all duration-300 cursor-pointer hover:scale-[1.01] flex items-center justify-between"
+              >
+                <div className="flex items-center space-x-4">
+                  <div className="w-10 h-10 bg-primary-soft rounded-xl flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                    <Calendar className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground">Book Professional Counselor</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Schedule with licensed therapists and psychologists
+                    </p>
+                  </div>
+                </div>
+                <Button variant="ghost" className="text-primary hover:text-primary/80">
+                  Book Now
+                </Button>
               </div>
             </div>
-            <Button variant="ghost" className="text-primary hover:text-primary/80">
-              Explore
-            </Button>
-          </div>
+          )}
         </div>
 
         {/* Volunteer Dashboard Access */}

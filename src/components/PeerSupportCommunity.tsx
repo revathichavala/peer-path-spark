@@ -9,11 +9,12 @@ import VolunteerDashboard from "@/components/VolunteerDashboard";
 
 interface PeerSupportCommunityProps {
   onBack: () => void;
+  onBookCounselor?: () => void;
 }
 
 type PeerSupportState = 'welcome' | 'login' | 'dashboard' | 'group-chat' | 'one-on-one' | 'resources' | 'volunteer-dashboard';
 
-const PeerSupportCommunity = ({ onBack }: PeerSupportCommunityProps) => {
+const PeerSupportCommunity = ({ onBack, onBookCounselor }: PeerSupportCommunityProps) => {
   const [currentState, setCurrentState] = useState<PeerSupportState>('welcome');
   const [username, setUsername] = useState('');
   const [isVolunteer] = useState(Math.random() > 0.7);
@@ -32,7 +33,7 @@ const PeerSupportCommunity = ({ onBack }: PeerSupportCommunityProps) => {
   switch (currentState) {
     case 'welcome': return <PeerSupportWelcome onJoinAnonymously={handleJoinAnonymously} />;
     case 'login': return <AnonymousLogin onUsernameGenerated={handleUsernameGenerated} />;
-    case 'dashboard': return <Dashboard username={username} onJoinGroupChat={handleJoinGroupChat} onStart1on1Chat={handleStart1on1Chat} onViewResources={handleViewResources} onVolunteerDashboard={handleVolunteerDashboard} isVolunteer={isVolunteer} />;
+    case 'dashboard': return <Dashboard username={username} onJoinGroupChat={handleJoinGroupChat} onStart1on1Chat={handleStart1on1Chat} onViewResources={handleViewResources} onBookCounselor={onBookCounselor} onVolunteerDashboard={handleVolunteerDashboard} isVolunteer={isVolunteer} />;
     case 'group-chat': return <GroupChat username={username} onBack={handleBackToDashboard} />;
     case 'one-on-one': return <OneOnOneChat username={username} onBack={handleBackToDashboard} />;
     case 'resources': return <ResourcesTab onBack={handleBackToDashboard} />;
