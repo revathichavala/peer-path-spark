@@ -5,8 +5,11 @@ import { RiskAssessmentResults } from "@/components/RiskAssessmentResults";
 import { ResourceHub } from "@/components/ResourceHub";
 import PeerSupportCommunity from "@/components/PeerSupportCommunity";
 import CounselorBooking from "@/components/CounselorBooking";
+import { BackendSelector } from "@/components/BackendSelector";
+import { IntegratedChatbotScreening } from "@/components/IntegratedChatbotScreening";
 
-type AppState = 'welcome' | 'screening' | 'results' | 'resources' | 'peer-support' | 'counselor-booking';
+type AppState = 'welcome' | 'backend-selection' | 'screening' | 'results' | 'resources' | 'peer-support' | 'counselor-booking';
+type BackendChoice = 'supabase' | 'mongodb' | 'both';
 
 interface AssessmentScores {
   phq9: number;
@@ -15,12 +18,14 @@ interface AssessmentScores {
 
 const Index = () => {
   const [currentState, setCurrentState] = useState<AppState>('welcome');
+  const [selectedBackend, setSelectedBackend] = useState<BackendChoice>('supabase');
   const [assessmentScores, setAssessmentScores] = useState<AssessmentScores | null>(null);
 
   // SEO: Set document title based on current state
   useEffect(() => {
     const titles = {
       welcome: 'MindSpace - Your AI Mental Health Companion',
+      'backend-selection': 'Choose Backend - MindSpace',
       screening: 'Wellness Assessment - MindSpace',
       results: 'Your Results - MindSpace', 
       resources: 'Resource Hub - MindSpace',
@@ -31,6 +36,11 @@ const Index = () => {
   }, [currentState]);
 
   const handleStartScreening = () => {
+    setCurrentState('backend-selection');
+  };
+
+  const handleBackendSelected = (backend: BackendChoice) => {
+    setSelectedBackend(backend);
     setCurrentState('screening');
   };
 
@@ -79,13 +89,22 @@ const Index = () => {
     case 'welcome':
       return <WelcomeHero onStartScreening={handleStartScreening} />;
     
-    case 'screening':
-      return (
-        <ChatbotScreening 
-          onComplete={handleScreeningComplete}
-          onBack={handleBackToWelcome}
-        />
-      );
+      case 'backend-selection':
+        return (
+          <BackendSelector 
+            onSelect={handleBackendSelected}
+            currentBackend={selectedBackend}
+          />
+        );
+
+      case 'screening':
+        return (
+          <IntegratedChatbotScreening
+            onComplete={handleScreeningComplete}
+            onBack={() => setCurrentState('backend-selection')}
+            backend={selectedBackend}
+          />
+        );
     
     case 'results':
       return assessmentScores ? (
